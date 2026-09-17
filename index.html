@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sushruta — NEET Mock Tests</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen">
+
+  <!-- Desktop Top Control Bar -->
+  <header class="bg-emerald-900 text-white py-3 px-6 shadow-md flex items-center justify-between sticky top-0 z-40 border-b border-emerald-800">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-emerald-700/80 border border-emerald-500/50 flex items-center justify-center text-emerald-300 font-bold text-lg">
+        <i class="fa-solid fa-notes-medical"></i>
+      </div>
+      <div>
+        <h1 class="font-extrabold text-base tracking-tight flex items-center gap-2">
+          SUSHRUTA <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-800 text-emerald-300 border border-emerald-600/50">Feature 10: Mock Tests (10/20)</span>
+        </h1>
+        <p class="text-[11px] text-emerald-200">Your NEET Preparation Companion &bull; "Learn Today, Heal Tomorrow"</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2.5">
+      <button id="btn-open-linear" class="px-3.5 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-700 border border-emerald-600 text-xs font-semibold text-emerald-100 flex items-center gap-1.5 transition">
+        <i class="fa-solid fa-layer-group text-emerald-300"></i> Linear App Export
+      </button>
+      <button id="btn-toggle-frame" class="px-3.5 py-1.5 rounded-lg bg-white text-emerald-900 hover:bg-emerald-50 text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
+        <span id="frame-toggle-icon"><i class="fa-solid fa-mobile-screen"></i></span>
+        <span id="frame-toggle-text">Desktop Full View</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-6xl mx-auto p-4 md:p-6">
+    <div id="app-frame-container" class="mobile-device-frame relative">
+      
+      <!-- iPhone Dynamic Island -->
+      <div class="dynamic-island">
+        <span class="text-[10px] font-bold text-slate-400">9:41</span>
+        <div class="w-3 h-3 rounded-full bg-slate-800 border border-slate-700"></div>
+        <div class="flex items-center gap-1 text-[10px] text-slate-400">
+          <i class="fa-solid fa-signal text-[9px]"></i>
+          <i class="fa-solid fa-wifi text-[9px]"></i>
+          <i class="fa-solid fa-battery-full text-[10px]"></i>
+        </div>
+      </div>
+
+      <!-- ================= 1. HOME / TEST FEED VIEW ================= -->
+      <div id="home-screen-view" class="pt-12 pb-6 px-4 flex-1 flex flex-col justify-between overflow-y-auto">
+        <div>
+          <!-- Top App Navigation -->
+          <div class="flex items-center justify-between mb-4 pt-1">
+            <button class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition">
+              <i class="fa-solid fa-arrow-left text-sm"></i>
+            </button>
+            <h2 class="font-bold text-lg text-slate-900 tracking-tight">Mock Tests</h2>
+            <button id="btn-view-history" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition" title="Past Test History">
+              <i class="fa-regular fa-clock text-base"></i>
+            </button>
+          </div>
+
+          <!-- Segmented Filter Pills -->
+          <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-100/90 rounded-2xl mb-5 border border-slate-200/80">
+            <button data-tab="full" class="filter-pill active py-2 rounded-xl text-xs font-bold text-center">Full Tests</button>
+            <button data-tab="chapter" class="filter-pill py-2 rounded-xl text-xs font-semibold text-center">Chapter-wise</button>
+            <button data-tab="subject" class="filter-pill py-2 rounded-xl text-xs font-semibold text-center">Subject-wise</button>
+          </div>
+
+          <!-- Section Heading -->
+          <div class="mb-3.5 px-0.5">
+            <h3 id="section-title" class="font-extrabold text-base text-slate-900 tracking-tight">NEET Full-Length Mock Tests</h3>
+            <p id="section-subtitle" class="text-xs text-slate-500">Simulate the real exam and track your performance.</p>
+          </div>
+
+          <!-- Mock Tests List Feed -->
+          <div id="test-cards-list" class="space-y-3 mb-6">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+        </div>
+
+        <!-- Motivational Footer Banner -->
+        <div id="progress-banner-container" class="mt-4">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+
+        <!-- Taglines & Medical Mottos -->
+        <div class="text-center pt-4 pb-1">
+          <p class="text-[11px] font-semibold text-emerald-800 italic">"Practice like the exam, perform like a doctor."</p>
+          <p class="text-[10px] text-slate-400 mt-0.5">Better Students &bull; Brighter Doctors</p>
+        </div>
+      </div>
+
+      <!-- ================= 2. NTA CBT EXAM SIMULATOR VIEW ================= -->
+      <div id="exam-cbt-view" class="pt-12 pb-4 px-4 flex-1 flex flex-col hidden bg-slate-50 overflow-y-auto">
+        <!-- CBT Header -->
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+          <div>
+            <h3 id="cbt-exam-title" class="font-extrabold text-sm text-slate-900">Mock Test 1</h3>
+            <span class="text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
+              <i class="fa-solid fa-circle text-[8px] text-emerald-500 animate-ping"></i> Live CBT Session
+            </span>
+          </div>
+          <div class="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl">
+            <i class="fa-regular fa-clock text-emerald-700 text-sm"></i>
+            <span id="cbt-timer" class="mono-font font-black text-sm text-emerald-900">200:00</span>
+          </div>
+        </div>
+
+        <!-- Section Navigation Tabs -->
+        <div id="cbt-section-tabs" class="flex gap-1.5 overflow-x-auto py-2.5">
+          <!-- Section buttons dynamically rendered -->
+        </div>
+
+        <!-- Question Area -->
+        <div id="cbt-question-area" class="glass-card rounded-2xl p-4 mb-3 border border-slate-200 flex-1">
+          <div class="flex items-center justify-between mb-2">
+            <span id="cbt-q-number" class="text-xs font-bold text-slate-700 uppercase tracking-wide">Question 1 of 200</span>
+            <div class="flex items-center gap-1.5">
+              <span id="cbt-q-subject" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">Physics</span>
+              <span id="cbt-q-marks" class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">+4, -1</span>
+            </div>
+          </div>
+          
+          <div id="cbt-q-chapter" class="text-[11px] font-medium text-slate-400 mb-2">Current Electricity</div>
+          <div id="cbt-q-text" class="text-sm font-semibold text-slate-900 leading-relaxed mb-4">
+            Loading question text...
+          </div>
+
+          <!-- Options -->
+          <div id="cbt-options-list" class="space-y-2.5 mb-4">
+            <!-- Dynamic options -->
+          </div>
+        </div>
+
+        <!-- Question Action Buttons -->
+        <div class="grid grid-cols-3 gap-2 mb-3">
+          <button id="btn-clear-response" class="py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+            Clear
+          </button>
+          <button id="btn-mark-review" class="py-2.5 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 text-xs font-bold transition">
+            Mark Review
+          </button>
+          <button id="btn-save-next" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition">
+            Save & Next
+          </button>
+        </div>
+
+        <!-- Question Palette Panel -->
+        <div class="bg-white rounded-2xl p-3.5 border border-slate-200 mb-3 shadow-sm">
+          <div class="flex items-center justify-between mb-2 text-xs font-bold text-slate-800">
+            <span>Question Palette</span>
+            <button id="btn-submit-exam" class="px-3 py-1 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shadow-sm transition">
+              Submit Test
+            </button>
+          </div>
+
+          <!-- Status Legend -->
+          <div class="grid grid-cols-3 gap-1.5 text-[10px] text-slate-600 mb-2.5 bg-slate-50 p-2 rounded-xl border border-slate-100">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-emerald-500"></span> Answered: <strong id="cnt-answered" class="text-slate-800">0</strong></span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-rose-500"></span> Not Answered: <strong id="cnt-not-answered" class="text-slate-800">0</strong></span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Review: <strong id="cnt-marked-review" class="text-slate-800">0</strong></span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Ans & Mark: <strong id="cnt-answered-review" class="text-slate-800">0</strong></span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-slate-300"></span> Not Visited: <strong id="cnt-not-visited" class="text-slate-800">0</strong></span>
+          </div>
+
+          <!-- Grid of Question numbers -->
+          <div id="cbt-palette-grid" class="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto p-1">
+            <!-- Palette items -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 3. INSTANT RESULTS & DETAILED ANALYSIS VIEW ================= -->
+      <div id="results-view" class="pt-12 pb-6 px-4 flex-1 flex flex-col hidden bg-slate-50 overflow-y-auto">
+        <!-- Top Results Bar -->
+        <div class="flex items-center justify-between mb-4">
+          <button id="btn-back-home-from-results" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition">
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+          </button>
+          <h2 class="font-bold text-base text-slate-900">Performance Report</h2>
+          <button id="btn-reattempt-test" class="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center gap-1 shadow-sm">
+            <i class="fa-solid fa-rotate-right text-[11px]"></i> Re-attempt
+          </button>
+        </div>
+
+        <div id="res-test-title" class="text-xs font-bold text-emerald-800 text-center mb-2">Mock Test 1 &bull; Full Syllabus</div>
+
+        <!-- Scorecard Hero Card -->
+        <div class="sushruta-gradient-card rounded-3xl p-5 mb-4 shadow-lg text-center relative overflow-hidden">
+          <div class="text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-1">Your NEET Predicted Score</div>
+          <div class="flex items-baseline justify-center gap-1 mb-2">
+            <span id="res-total-score" class="font-extrabold text-5xl text-white tracking-tight">580</span>
+            <span id="res-max-score" class="text-base text-emerald-200 font-semibold">/720</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 pt-3 border-t border-emerald-700/60 text-center">
+            <div>
+              <div class="text-[10px] text-emerald-200 uppercase font-semibold">Predicted AIR</div>
+              <div id="res-predicted-air" class="font-bold text-xs text-white mt-0.5">AIR 12k - 18k</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-emerald-200 uppercase font-semibold">Percentile</div>
+              <div id="res-percentile" class="font-bold text-xs text-white mt-0.5">97.8%</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-emerald-200 uppercase font-semibold">Accuracy</div>
+              <div id="res-accuracy" class="font-bold text-xs text-white mt-0.5">85%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- College Cutoff & Readiness Barometer -->
+        <div id="res-cutoff-box" class="mb-4">
+          <!-- Filled dynamically -->
+        </div>
+
+        <!-- Breakdown Quick Stats -->
+        <div class="grid grid-cols-4 gap-2 text-center mb-4">
+          <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-sm">
+            <div class="text-[10px] text-slate-500 font-semibold">Correct</div>
+            <div id="res-cnt-correct" class="font-black text-sm text-emerald-600 mt-0.5">0</div>
+          </div>
+          <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-sm">
+            <div class="text-[10px] text-slate-500 font-semibold">Incorrect</div>
+            <div id="res-cnt-incorrect" class="font-black text-sm text-rose-600 mt-0.5">0</div>
+          </div>
+          <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-sm">
+            <div class="text-[10px] text-slate-500 font-semibold">Skipped</div>
+            <div id="res-cnt-unattempted" class="font-black text-sm text-slate-600 mt-0.5">0</div>
+          </div>
+          <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-sm">
+            <div class="text-[10px] text-slate-500 font-semibold">Time</div>
+            <div id="res-time-taken" class="font-black text-xs text-slate-700 mt-0.5">0m</div>
+          </div>
+        </div>
+
+        <!-- Subject Wise Mastery -->
+        <div class="mb-4">
+          <h3 class="font-bold text-sm text-slate-900 mb-2 flex items-center justify-between">
+            <span>Subject-wise Breakdown</span>
+            <span class="text-[11px] font-normal text-slate-500">Physics &bull; Chem &bull; Bio</span>
+          </h3>
+          <div id="res-subject-breakdown-list" class="space-y-2">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Solutions & Mistake Book Review -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-2.5">
+            <h3 class="font-bold text-sm text-slate-900">Detailed Solutions</h3>
+            <div class="flex gap-1 text-[11px]">
+              <button data-sol-filter="all" class="px-2 py-0.5 rounded-lg bg-emerald-600 text-white font-bold transition">All</button>
+              <button data-sol-filter="incorrect" class="px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition">Incorrect</button>
+              <button data-sol-filter="unattempted" class="px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition">Skipped</button>
+              <button data-sol-filter="correct" class="px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition">Correct</button>
+            </div>
+          </div>
+
+          <div id="res-solutions-list" class="space-y-3">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. Test Details Modal -->
+  <div id="test-details-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl border border-slate-100">
+      <div class="flex items-start justify-between mb-3">
+        <div>
+          <h3 id="modal-test-title" class="font-black text-lg text-slate-900">Mock Test 1</h3>
+          <p id="modal-test-subtitle" class="text-xs text-slate-500">Full Syllabus (NEET Pattern)</p>
+        </div>
+        <button onclick="closeModal('test-details-modal')" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <p id="modal-test-desc" class="text-xs text-slate-600 mb-4 bg-slate-50 p-3 rounded-xl border border-slate-100 leading-relaxed">
+        Comprehensive test covering all subjects according to latest NTA pattern.
+      </p>
+
+      <div class="grid grid-cols-3 gap-2 text-center mb-4">
+        <div class="bg-emerald-50 p-2.5 rounded-xl border border-emerald-100">
+          <div class="text-[10px] font-semibold text-emerald-800">Duration</div>
+          <div id="modal-test-duration" class="font-bold text-xs text-emerald-950 mt-0.5">200 Mins</div>
+        </div>
+        <div class="bg-emerald-50 p-2.5 rounded-xl border border-emerald-100">
+          <div class="text-[10px] font-semibold text-emerald-800">Questions</div>
+          <div id="modal-test-questions" class="font-bold text-xs text-emerald-950 mt-0.5">200 Qs</div>
+        </div>
+        <div class="bg-emerald-50 p-2.5 rounded-xl border border-emerald-100">
+          <div class="text-[10px] font-semibold text-emerald-800">Max Marks</div>
+          <div id="modal-test-score" class="font-bold text-xs text-emerald-950 mt-0.5">720 Marks</div>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-700 mb-4 space-y-1">
+        <div class="font-bold text-slate-900 flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-info text-emerald-600"></i> Marking Scheme:
+        </div>
+        <div id="modal-test-marking" class="text-slate-600 text-[11px]">+4 for Correct &bull; -1 for Incorrect &bull; 0 for Unattempted</div>
+      </div>
+
+      <div id="modal-test-past-attempts" class="mb-4 hidden">
+        <!-- Past attempts table -->
+      </div>
+
+      <button id="btn-start-test-session" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition flex items-center justify-center gap-2">
+        <i class="fa-solid fa-play text-xs"></i> Start NEET Mock Test
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. Test History Modal -->
+  <div id="history-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-5 shadow-2xl border border-slate-100 max-h-[85vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="font-black text-base text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-clock-rotate-left text-emerald-600"></i> Attempt History & Progress
+        </h3>
+        <button onclick="closeModal('history-modal')" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div id="history-items-list" class="space-y-2.5 my-4 overflow-y-auto flex-1 pr-1">
+        <!-- Filled dynamically -->
+      </div>
+
+      <div class="pt-2 border-t border-slate-100 flex justify-end">
+        <button onclick="closeModal('history-modal')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold text-slate-700">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Submit Confirmation Modal -->
+  <div id="submit-confirm-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl border border-slate-100 text-center">
+      <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl mx-auto mb-3 border border-amber-200">
+        <i class="fa-solid fa-flag-checkered"></i>
+      </div>
+      <h3 class="font-extrabold text-base text-slate-900 mb-1">Submit Your Test?</h3>
+      <p class="text-xs text-slate-500 mb-4">Are you sure you want to complete and submit this test session?</p>
+      
+      <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 grid grid-cols-3 gap-1 text-center text-xs mb-4">
+        <div>
+          <div class="text-slate-500 text-[10px]">Answered</div>
+          <div id="submit-modal-answered" class="font-bold text-emerald-600 text-sm">0</div>
+        </div>
+        <div>
+          <div class="text-slate-500 text-[10px]">Skipped</div>
+          <div id="submit-modal-unattempted" class="font-bold text-slate-700 text-sm">0</div>
+        </div>
+        <div>
+          <div class="text-slate-500 text-[10px]">Marked</div>
+          <div id="submit-modal-marked" class="font-bold text-purple-600 text-sm">0</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="closeModal('submit-confirm-modal')" class="py-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold text-slate-700">
+          Continue Test
+        </button>
+        <button id="btn-confirm-submit-exam" class="py-2.5 bg-emerald-600 hover:bg-emerald-700 rounded-xl text-xs font-bold text-white shadow-sm">
+          Yes, Submit Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Linear App Export Modal -->
+  <div id="linear-tickets-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl border border-slate-100 max-h-[85vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+        <div>
+          <h3 class="font-black text-base text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-layer-group text-emerald-600"></i> Linear App Ready Tickets
+          </h3>
+          <p class="text-xs text-slate-500">Feature 10: Mock Tests (10/20) Epic & Sub-Issues</p>
+        </div>
+        <button onclick="closeModal('linear-tickets-modal')" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="my-4 overflow-y-auto flex-1 bg-slate-900 text-slate-100 p-4 rounded-2xl font-mono text-xs leading-relaxed" id="linear-content-preview">
+### EPIC: [SUSHRUTA-100] Feature 10: Mock Tests (10/20) — Exam Simulation & Preparation Evaluation
+
+**Description:**
+Build the comprehensive NEET Mock Test ecosystem for Sushruta to simulate the real NEET exam experience, provide instant scoring (+4/-1), detailed subject analytics, NCERT solutions, and re-attempt capability.
+
+---
+### ISSUE 1: [SUSHRUTA-101] Test Selection Hub & Multi-Type Navigation
+- **Type:** Story | **Priority:** High | **Estimate:** 3 pts
+- **Summary:** Filterable test catalog for Full Tests, Chapter-wise Tests, and Subject-wise Tests.
+- **Acceptance Criteria:**
+  1. Segmented tab pills for Full Tests, Chapter-wise, and Subject-wise.
+  2. Mock Test cards display: Title, Subtitle, 3 Hours duration, 200 Questions, Difficulty badge (Moderate/Difficult).
+  3. Motivational "Track Your Progress" banner.
+
+---
+### ISSUE 2: [SUSHRUTA-102] NTA-Style CBT Live Exam Simulator Engine
+- **Type:** Story | **Priority:** Urgent | **Estimate:** 5 pts
+- **Summary:** Real-time exam test engine adhering to official NTA CBT interface.
+- **Acceptance Criteria:**
+  1. 200-minute live countdown timer with warning alert (<5 mins) and auto-submit.
+  2. Subject Section navigation (Physics Sec A/B, Chemistry Sec A/B, Botany Sec A/B, Zoology Sec A/B).
+  3. Full Question Palette with NTA state indicators (Answered, Not Answered, Marked for Review, Answered & Marked, Not Visited).
+  4. Actions: "Clear Response", "Mark for Review & Next", "Save & Next", "Submit Test".
+
+---
+### ISSUE 3: [SUSHRUTA-103] Instant Scorecard, AIR Predictor & Analytics Engine
+- **Type:** Story | **Priority:** High | **Estimate:** 5 pts
+- **Summary:** Immediate scoring engine applying NEET UG marking (+4, -1, 0) and predictive rank analysis.
+- **Acceptance Criteria:**
+  1. Score calculated out of 720 with percentile and AIR prediction range.
+  2. Medical College Cut-off Barometer (AIIMS, State GMCs, BDS, Private).
+  3. Subject-wise accuracy and score breakdown across Physics, Chemistry, Botany, and Zoology.
+
+---
+### ISSUE 4: [SUSHRUTA-104] Interactive Mistake Book, NCERT Solutions & Re-Attempt Flow
+- **Type:** Story | **Priority:** Medium | **Estimate:** 3 pts
+- **Summary:** In-depth solution walkthrough and one-click test re-attempt to measure score improvement.
+- **Acceptance Criteria:**
+  1. Filter solutions by All, Incorrect, Skipped, and Correct.
+  2. Step-by-step explanations with scientific formula rendering and NCERT page citations.
+  3. "Re-attempt Test" button resets state and records longitudinal score progress.
+      </div>
+
+      <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
+        <span class="text-xs text-slate-500">Includes Epic, 4 Stories, Acceptance Criteria & Estimates</span>
+        <div class="flex gap-2">
+          <button id="btn-copy-linear" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-regular fa-copy"></i> Copy to Clipboard
+          </button>
+          <button onclick="closeModal('linear-tickets-modal')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Main Scripts -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
